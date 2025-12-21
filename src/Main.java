@@ -1,13 +1,72 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-void main() {
-  //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-  // to see how IntelliJ IDEA suggests fixing it.
-  IO.println(String.format("Hello and welcome!"));
+public class Student {
 
-  for (int i = 1; i <= 5; i++) {
-    //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-    // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-    IO.println("i = " + i);
-  }
+    private String name;
+    private String id;
+    private String major;
+    private double gpa;
+    private int credits;
+
+
+    public Student(String name, String id, String major) {
+        this.name = name;
+        this.id = id;
+        this.major = major;
+        this.gpa = 0.0;
+        this.credits = 0;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public double getGpa() {
+        return gpa;
+    }
+
+    public void updateGPA(double newGPA) {
+        if (newGPA >= 0.0 && newGPA <= 4.0) {
+            this.gpa = newGPA;
+        }
+    }
+
+    public int getCredits() {
+        return credits;
+    }
+
+    public void addCredits(int c) {
+        if (c > 0) {
+            credits += c;
+        }
+    }
+
+    public boolean isHonors() {
+        return gpa >= 3.5;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{name='" + name +
+                "', id='" + id +
+                "', major='" + major +
+                "', gpa=" + gpa +
+                ", credits=" + credits + "}";
+    }
 }
+
