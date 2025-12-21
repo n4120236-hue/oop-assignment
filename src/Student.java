@@ -12,7 +12,7 @@ public class Student {
         this.major = major;
         this.gpa = 0.0;
         this.credits = 0;
-    }
+    }//11
 
     public String getName() {
         return name;
