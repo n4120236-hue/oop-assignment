@@ -10,7 +10,7 @@ public abstract class MenuItem {
         this.name = name;
         this.price = price;
     }
-
+//s
     public int getId() { return id; }
     public String getName() { return name; }
     public double getPrice() { return price; }
