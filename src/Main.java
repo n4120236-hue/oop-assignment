@@ -1,19 +1,21 @@
-import model.*;
-import repository.MenuRepository;
-import java.util.List;
+import controller.RestaurantController;
+import service.MenuService;
+import repository.MenuItemRepository;
+import utils.DatabaseConnection;
+import utils.ReflectionUtils;
+import model.Dish;
+import java.sql.Connection;
 
 public class Main {
     public static void main(String[] args) {
-        MenuRepository repo = new MenuRepository();
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            MenuItemRepository repo = new MenuItemRepository(conn);
+            MenuService service = new MenuService(repo);
+            RestaurantController controller = new RestaurantController(service);
 
-        try {
-            FoodItem burger = new FoodItem(0, "Cheeseburger", 1800, "Grill");
-            repo.save(burger);
+            ReflectionUtils.inspectClass(new Dish(0, "", 0, false));
 
-            List<MenuItem> menu = repo.findAll();
-            for (MenuItem item : menu) {
-                System.out.println(item);
-            }
+            controller.start();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,25 +1,23 @@
 package model;
-
 public abstract class MenuItem {
     private int id;
     private String name;
-    private double price;
+    private double basePrice;
 
-    public MenuItem(int id, String name, double price) {
+    public MenuItem(int id, String name, double basePrice) {
         this.id = id;
         this.name = name;
-        this.price = price;
+        this.basePrice = basePrice;
     }
 
     public int getId() { return id; }
     public String getName() { return name; }
-    public double getPrice() { return price; }
+    public double getBasePrice() { return basePrice; }
 
-    public abstract String getCategory();
-    public abstract String getDetails();
+    public abstract double calculateTax();
+    public abstract String getType();
 
-    @Override
-    public String toString() {
-        return String.format("[%s] %s: %.2f tg", getCategory(), name, price);
+    public final double getFinalPrice() {
+        return basePrice + calculateTax();
     }
 }
