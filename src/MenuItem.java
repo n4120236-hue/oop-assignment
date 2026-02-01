@@ -1,23 +1,30 @@
-package model;
-public abstract class MenuItem {
+public abstract class MenuItem implements Validatable<MenuItem> {
     private int id;
     private String name;
-    private double basePrice;
+    private double price;
 
-    public MenuItem(int id, String name, double basePrice) {
+    public MenuItem(int id, String name, double price) {
         this.id = id;
         this.name = name;
-        this.basePrice = basePrice;
+        this.price = price;
+    }
+
+    public abstract String getCategory();
+    public abstract double calculateDiscount();
+
+    public String getInfo() {
+        return id + ": " + name + " - " + price;
     }
 
     public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
     public String getName() { return name; }
-    public double getBasePrice() { return basePrice; }
+    public void setName(String name) { this.name = name; }
+    public double getPrice() { return price; }
+    public void setPrice(double price) { this.price = price; }
 
-    public abstract double calculateTax();
-    public abstract String getType();
-
-    public final double getFinalPrice() {
-        return basePrice + calculateTax();
+    @Override
+    public boolean validate() {
+        return name != null && price > 0;
     }
 }

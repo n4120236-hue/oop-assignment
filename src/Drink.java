@@ -1,4 +1,3 @@
-package model;
 public class Drink extends MenuItem {
     private double volume;
 
@@ -8,8 +7,8 @@ public class Drink extends MenuItem {
     }
 
     @Override
-    public double calculateTax() { return getBasePrice() * 0.20; }
+    public String getCategory() { return "Drink"; }
 
     @Override
-    public String getType() { return "Drink (" + volume + "L)"; }
+    public double calculateDiscount() { return getPrice() * 0.05; }
 }

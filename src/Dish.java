@@ -1,15 +1,14 @@
-package model;
 public class Dish extends MenuItem {
-    private boolean isVegetarian;
+    private boolean isSpicy;
 
-    public Dish(int id, String name, double price, boolean isVegetarian) {
+    public Dish(int id, String name, double price, boolean isSpicy) {
         super(id, name, price);
-        this.isVegetarian = isVegetarian;
+        this.isSpicy = isSpicy;
     }
 
     @Override
-    public double calculateTax() { return getBasePrice() * 0.10; }
+    public String getCategory() { return "Dish"; }
 
     @Override
-    public String getType() { return isVegetarian ? "Veg Dish" : "Meat Dish"; }
+    public double calculateDiscount() { return getPrice() * 0.1; }
 }

@@ -1,23 +1,33 @@
-import controller.RestaurantController;
-import service.MenuService;
-import repository.MenuItemRepository;
-import utils.DatabaseConnection;
-import utils.ReflectionUtils;
-import model.Dish;
 import java.sql.Connection;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
         try (Connection conn = DatabaseConnection.getConnection()) {
-            MenuItemRepository repo = new MenuItemRepository(conn);
-            MenuService service = new MenuService(repo);
+            MenuItemRepository repository = new MenuItemRepository(conn);
+            MenuService service = new MenuService(repository);
             RestaurantController controller = new RestaurantController(service);
 
-            ReflectionUtils.inspectClass(new Dish(0, "", 0, false));
+            MenuItem dish1 = new Dish(101, "Pasta Carbonara", 15.50, false);
+            MenuItem drink1 = new Drink(102, "Iced Latte", 4.50, 0.4);
 
-            controller.start();
+            System.out.println("--- Runtime Inspection ---");
+            ReflectionUtils.inspectClass(dish1);
+
+            service.addItem(dish1);
+            service.addItem(drink1);
+
+            System.out.println("\n--- Menu Presentation ---");
+            controller.displaySortedMenu();
+
+            dish1.printStatus();
+
+            System.out.println("\n--- Filtering Example ---");
+            List<MenuItem> cheapItems = service.filterByPrice(10.0);
+            cheapItems.forEach(item -> System.out.println("Found: " + item.getName()));
+
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("Error: " + e.getMessage());
         }
     }
 }

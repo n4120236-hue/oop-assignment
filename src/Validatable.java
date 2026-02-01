@@ -1,14 +1,9 @@
-package interfaces;
-import exception.InvalidInputException;
-
 public interface Validatable<T> {
-    void validate(T entity) throws InvalidInputException;
-
-    default void logValidation(String name) {
-        System.out.println("[System] Validating item: " + name);
+    boolean validate();
+    default void printStatus() {
+        System.out.println("Validation check performed.");
     }
-
-    static boolean isPositive(double val) {
-        return val > 0;
+    static boolean isNotNull(Object obj) {
+        return obj != null;
     }
 }

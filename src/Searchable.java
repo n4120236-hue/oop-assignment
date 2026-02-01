@@ -1,6 +1,3 @@
-package interfaces;
-import java.util.List;
-
 public interface Searchable<T> {
-    List<T> searchByName(String keyword);
+    T findByName(String name);
 }
