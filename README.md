@@ -1,68 +1,76 @@
-Restaurant Ordering System API
+🍽️ Restaurant Ordering System (Milestone 2)
 📌 Project Overview
+This project is a refactored multi-layer Java API for a Restaurant Ordering System. It demonstrates the application of SOLID principles, Advanced Java features (Generics, Lambdas, Reflection), and Layered Architecture.
 
-This is a console-based Java application for managing a restaurant menu. The project demonstrates advanced OOP concepts, interaction with a relational database using JDBC, and robust exception handling.
+🛠️ Tech Stack
+Language: Java 17+
 
-🧬 OOP Principles Applied
+Database: PostgreSQL
 
-The project follows core Object-Oriented Programming principles:
+API Pattern: Controller-Service-Repository
 
-Encapsulation: All fields in model classes (e.g., MenuItem) are declared as private. Access is provided through public getters and setters to ensure data integrity.
+Build Tool: Manual (or Maven/Gradle)
 
-Inheritance: An abstract base class MenuItem is used to define common properties, while specific types like FoodItem and DrinkItem extend it.
+🧩 SOLID Principles Implementation
+1. Single Responsibility Principle (SRP)
 
-Abstraction: The MenuItem class contains abstract methods such as getCategory() and getDetails(), which must be implemented by subclasses.
+Each class has one reason to change:
 
-Polymorphism: The application uses List<MenuItem> to handle different types of menu items uniformly, allowing dynamic method invocation at runtime.
+MenuItemRepository: Only handles database operations (CRUD).
 
-Composition: (Optional depending on your code) Entities are linked to represent real-world relationships, such as an Order containing multiple MenuItems.
+MenuService: Contains business logic and validation rules.
 
-📊 Database Layer
+RestaurantController: Manages user interaction and flow control.
 
-The project uses PostgreSQL as the data store. The menu_items table is designed to store both common and type-specific data.
+2. Open-Closed Principle (OCP)
 
-SQL Schema:
+The system is open for extension but closed for modification. We can add new types of menu items (e.g., Dessert, Combo) by extending the MenuItem abstract class without changing the existing MenuService or Repository logic.
 
-SQL
-CREATE TABLE menu_items (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    price DOUBLE PRECISION NOT NULL,
-    type VARCHAR(50),
-    extra_info VARCHAR(255)
-);
-🛠 Architecture
+3. Liskov Substitution Principle (LSP)
 
-The code is organized into a multi-layer architecture for better maintainability:
+Subclasses Dish and Drink can be used interchangeably as MenuItem objects without breaking the application. All overridden methods like calculateTax() maintain the expected behavior of the base class.
 
-Model: Data entities (MenuItem, FoodItem).
+4. Interface Segregation Principle (ISP)
 
-Repository: Data Access Object (DAO) layer using JDBC PreparedStatement.
+Instead of one massive interface, we use focused interfaces:
 
-Service: Business logic and validation rules.
+Validatable<T>: For entity validation.
 
-Util: Database connection management.
+CrudRepository<T>: For data persistence.
 
-Exception: Custom exception hierarchy for specialized error handling.
+5. Dependency Inversion Principle (DIP)
 
-🚀 Setup and Run
+High-level modules (MenuService) do not depend on low-level modules (MenuItemRepository). Instead, they depend on abstractions (CrudRepository interface). This allows us to switch from PostgreSQL to any other database easily.
 
-Database Setup: Create a database named restaurant_db and run the SQL script provided above.
+🚀 Advanced Features
+Generics: The CrudRepository<T> interface uses generics to work with any entity type.
 
-Configuration: Update the DatabaseConnection.java file with your PostgreSQL username and password.
+Lambda Expressions: Used in MenuService.getSortedMenu() to implement custom sorting logic: items.sort((a, b) -> Double.compare(a.getBasePrice(), b.getBasePrice()));
 
-Drivers: Ensure the PostgreSQL JDBC driver is added to your project dependencies.
+Reflection (RTTI): Implemented in ReflectionUtils to inspect class fields and methods at runtime.
 
-Execution: Run the Main.java class to start the application.
+Default/Static Methods: The Validatable interface includes a default method for logging and a static method for price checking.
 
-📸 Screenshots
+📊 Database Schema
+The project uses a relational structure in PostgreSQL:
 
-Note: Replace the placeholders below with actual screenshots from your project to get the full 20 points.
+menu_items: Stores all items with a type discriminator (DISH/DRINK).
 
-Application Execution:
+Composition: Elements are linked through logical grouping in the service layer.
 
-Database State:
+📁 Project Structure
+Plaintext
+src/
+├── controller/     # Presentation Layer
+├── service/        # Business Logic Layer (Validation, Sorting)
+├── repository/     # Data Access Layer (PostgreSQL JDBC)
+├── model/          # Entities (Abstract Base + Subclasses)
+├── interfaces/     # Functional Interfaces & Contracts
+├── exception/      # Custom Exception Hierarchy
+└── utils/          # Reflection and DB Connection
+📝 How to Run
+Database Setup: Execute src/resources/schema.sql in your PostgreSQL terminal.
 
-📝 Reflection
+Configuration: Update DatabaseConnection.java with your PostgreSQL credentials.
 
-During this assignment, I learned how to bridge a Java application with a real-world database. The most challenging part was designing a flexible inheritance structure that maps well to a flat SQL table and managing the lifecycle of database connections to prevent memory leaks.
+Compile & Run: Run the Main.java file.
