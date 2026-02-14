@@ -1,73 +1,46 @@
-Проект Restaurant Ordering System
+Restaurant Ordering System
 SOLID Documentation
-
-Single Responsibility Principle SRP Каждый класс выполняет одну задачу. RestaurantController отвечает за взаимодействие с пользователем. MenuService содержит бизнес-логику и валидацию. MenuItemRepository работает только с базой данных.
-
-
-
-
-
-Open-Closed Principle OCP Система открыта для расширения через абстрактный класс MenuItem. Можно добавлять новые типы позиций меню например Dessert без изменения существующего кода сервисов или контроллера.
-
-
-Liskov Substitution Principle LSP Классы Dish и Drink являются полноценными подклассами MenuItem. Программа работает корректно при замене базового типа MenuItem на любой из его подклассов.
-
-
-
-
-
-Interface Segregation Principle ISP Вместо одного большого интерфейса используются узкоспециализированные Searchable и Validatable. Это позволяет классам реализовывать только необходимые методы.
-
-
-
-
-Dependency Inversion Principle DIP Высокоуровневые модули Service и Controller зависят от интерфейсов CrudRepository и Validatable а не от конкретных реализаций. Зависимости передаются через конструкторы.
-
-
-
-
+Single Responsibility Principle (SRP)
+Each class has a single responsibility.
+RestaurantController handles user interaction.
+MenuService contains business logic and validation.
+MenuItemRepository works only with the database.
+Open-Closed Principle (OCP)
+The system is open for extension through the abstract class MenuItem.
+New menu item types (for example, Dessert) can be added without modifying existing service or controller code.
+Liskov Substitution Principle (LSP)
+The classes Dish and Drink are полноценные subclasses of MenuItem.
+The program works correctly when the base type MenuItem is replaced with any of its subclasses.
+Interface Segregation Principle (ISP)
+Instead of one large interface, smaller specialized interfaces are used: Searchable and Validatable.
+This allows classes to implement only the methods they actually need.
+Dependency Inversion Principle (DIP)
+High-level modules (Service and Controller) depend on abstractions (CrudRepository and Validatable) rather than concrete implementations.
+Dependencies are injected through constructors.
 Advanced OOP Features
-
-Generics Интерфейс CrudRepository использует дженерик T для работы с любыми типами сущностей в базе данных.
-
-
-
-Lambdas Лямбда-выражения используются в MenuService для сортировки списка блюд по цене и для фильтрации объектов.
-
-
-
-Reflection Класс ReflectionUtils выполняет runtime проверку объектов MenuItem. Он извлекает названия классов поля и методы во время выполнения программы.
-
-
-
-
-Interface Methods В интерфейсе Validatable реализован default метод для вывода статуса и static метод для проверки на null.
-
-
-
+Generics
+The CrudRepository interface uses a generic type T to work with any entity type in the database.
+Lambdas
+Lambda expressions are used in MenuService to sort dishes by price and to filter objects.
+Reflection
+The ReflectionUtils class performs runtime inspection of MenuItem objects.
+It retrieves class names, fields, and methods during program execution.
+Interface Methods
+The Validatable interface contains:
+A default method to display validation status
+A static method to check for null values
 OOP Structure
-
-Abstract Class and Subclasses MenuItem является базовым абстрактным классом с полями id name и price. Dish и Drink расширяют его и переопределяют методы getCategory и calculateDiscount.
-
-
-
-
-
-Composition MenuItem связан с категорией через внешний ключ в базе данных и поле в коде что демонстрирует отношение композиции.
-
-
-
+Abstract Class and Subclasses
+MenuItem is a base abstract class with fields id, name, and price.
+Dish and Drink extend it and override the methods getCategory() and calculateDiscount().
+Composition
+MenuItem is associated with a category via a foreign key in the database and a corresponding field in the code, demonstrating composition.
 Database Section
+Schema
+The categories table stores dish categories.
+The menu_items table contains main data and is linked to categories through the foreign key category_id.
+Sample Inserts
+INSERT INTO categories (name) VALUES ('Main Course');
 
-Schema Таблица categories хранит типы блюд. Таблица menu_items содержит основные данные и связана с categories через foreign key category_id.
-
-
-
-Sample Inserts INSERT INTO categories name VALUES Main Course. INSERT INTO menu_items id name price category_id VALUES 1 Steak 25.50 1.
-
-
-Execution Instructions
-
-Requirements Java 17 или выше. PostgreSQL Server. JDBC Driver для PostgreSQL в classpath проекта.
-
-How to run Создать базу данных restaurant_db. Выполнить SQL скрипт из файла schema.sql. Скомпилировать файлы из папки src и запустить класс Main.
+INSERT INTO menu_items (id, name, price, category_id) 
+VALUES (1, 'Steak', 25.50, 1);
